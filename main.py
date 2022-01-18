@@ -38,12 +38,18 @@ if predict_btn:
         df_predictions=pd.DataFrame(predictions,columns=["Predicted Selling Price"])
         df_inputs=df.drop("Selling_Price",axis=1)
         df_final=pd.concat([df_inputs,df_predictions],axis=1)
-        df_final.to_csv("outputs/predictions.csv",index=False)
+        csv=df_final.to_csv(index=False).encode("utf-8")
         
 
         #displaying the output
         st.dataframe(df_final)
-        st.success("Predictions are saved in outputs folder")
+        #st.success("Predictions are saved in outputs folder")
+        st.download_button(
+         label="Download data as CSV",
+         data=csv,
+         file_name='predictions.csv',
+         mime='text/csv',
+         )
         #delete the temporary files
         delete_tmp_files("tmp_files")
              
